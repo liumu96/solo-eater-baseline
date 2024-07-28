@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  /* color: rgb(var(--foreground-rgb)); */
+  /* background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb)); */
+  background-color: #fff;
+  padding: 0;
+  font-family: "Quicksand", sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-in-out forwards;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Danmaku.css */
+.danmaku-container {
+  position: absolute;
+  bottom: 40px; /* 调整到屏幕底部 */
+  right: 30px; /* 调整到屏幕右边 */
+  min-width: 300px; /* 最小宽度 */
+  height: 199px; /* 高度调整为屏幕的20% */
+  overflow: hidden;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column; /* 正序排列 */
+  justify-content: flex-end; /* 保证弹幕从下往上 */
+}
+
+.danmaku-item {
+  margin-top: 10px; /* 弹幕之间的间距 */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px 10px; /* 增加左右内边距 */
+  border-radius: 5px;
+  display: inline-flex; /* 使用inline-flex布局 */
+  align-items: center; /* 垂直居中 */
+  animation: fade-in-out 10s ease-in-out forwards; /* 修改动画 */
+  font-size: 20px;
+  max-width: 400px;
+}
+
+.danmaku-item .emoji {
+  margin-right: 8px; /* 增加表情符号和文字之间的间距 */
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+    transform: translateY(10px); /* 从下方弹出 */
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0); /* 弹出效果 */
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0); /* 停留在中间 */
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px); /* 向上消失 */
+  }
+}
