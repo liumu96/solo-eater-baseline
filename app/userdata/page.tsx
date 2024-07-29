@@ -1,8 +1,8 @@
 "use client";
 
 import { useData } from "@/context/DataContext";
-import React, { useEffect, useRef } from "react";
-import { Button, Typography } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Typography, Modal } from "@mui/material";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -40,9 +40,9 @@ const UserDataPage = () => {
       stopTimes: (userBehaviorInfo?.stopChewingTimes || []).map(
         (time) => new Date(time)
       ),
-      resumeTimes: (userBehaviorInfo?.resumeChewingTimes || []).map(
-        (time) => new Date(time)
-      ),
+      resumeTimes: (userBehaviorInfo?.resumeChewingTimes || [])
+        .map((time) => new Date(time))
+        .slice(1),
     },
   };
 
@@ -77,6 +77,8 @@ const UserDataPage = () => {
         });
     }
   };
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -137,6 +139,13 @@ const UserDataPage = () => {
             colWidth,
             rowHeight
           );
+
+          ctx.fillText(
+            formatDate(testUserInfo.videoWatchingDuration.stopTimes[i]),
+            tableX + 10,
+            tableY + (i + 1) * rowHeight + 16
+          );
+
           if (i < testUserInfo.videoWatchingDuration.resumeTimes.length) {
             ctx.strokeRect(
               tableX + colWidth,
@@ -145,11 +154,6 @@ const UserDataPage = () => {
               rowHeight
             );
           }
-          ctx.fillText(
-            formatDate(testUserInfo.videoWatchingDuration.stopTimes[i]),
-            tableX + 10,
-            tableY + (i + 1) * rowHeight + 16
-          );
           if (i < testUserInfo.videoWatchingDuration.resumeTimes.length) {
             ctx.fillText(
               formatDate(testUserInfo.videoWatchingDuration.resumeTimes[i]),
@@ -204,7 +208,32 @@ const UserDataPage = () => {
         }
       }
     }
+
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      const confirmationMessage =
+        "Please make sure you have downloaded your data and completed the survey before leaving.";
+      event.preventDefault();
+      event.returnValue = ""; // Required for browser's default behavior
+      setOpen(true); // Show modal on the page
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [testUserInfo]);
+
+  const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    const alarmInfo = setTimeout(() => {
+      setOpen(true);
+    }, 10000);
+    return () => {
+      clearTimeout(alarmInfo);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col items-center p-4 space-y-4">
@@ -248,9 +277,39 @@ const UserDataPage = () => {
       <canvas
         ref={canvasRef}
         width={800} // Increase width to ensure the chart is not cut off
-        height={700} // Adjust height to fit all content
+        height={2000} // Adjust height to fit all content
         className="border"
       ></canvas>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="unsaved-changes-title"
+        aria-describedby="unsaved-changes-description"
+      >
+        <div className="absolute bg-white p-[20px] m-auto top-20 left-1/2 -translate-x-1/2">
+          <Typography variant="h5" align="center" gutterBottom>
+            👋
+          </Typography>
+          <Typography variant="h5" align="center" gutterBottom>
+            Please make sure you have downloaded your data and completed the
+            survey before leaving.
+          </Typography>
+
+          <div className="flex w-full justify-around mt-10">
+            <Button onClick={handleClose} variant="contained" color="primary">
+              Back To Download
+            </Button>
+            <Button
+              onClick={() => window.location.reload()}
+              variant="contained"
+              color="secondary"
+            >
+              Leave Page
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
