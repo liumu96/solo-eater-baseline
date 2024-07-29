@@ -81,6 +81,15 @@ const UserDataPage = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    const alarmInfo = setTimeout(() => {
+      setOpen(true);
+    }, 10000);
+    return () => {
+      clearTimeout(alarmInfo);
+    };
+  }, []);
+
+  const drawCanvas = () => {
     const canvas = canvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext("2d");
@@ -208,6 +217,36 @@ const UserDataPage = () => {
         }
       }
     }
+  };
+
+  const calculateCanvasHeight = () => {
+    const baseHeight = 500; // Default height
+    const lineHeight = 24; // Line height
+    let height = 30; // Initial Y position
+
+    // Text block height
+    height += 24 * 5; // Adjust this value based on number of text blocks
+
+    // Calculate table height
+    const tableRows = Math.max(
+      testUserInfo.videoWatchingDuration.stopTimes.length,
+      testUserInfo.chewingDuration.stopTimes.length
+    );
+    height += tableRows * lineHeight * 2; // Table rows + spacing
+
+    // Additional spacing
+    height += 30; // Extra spacing at the end
+
+    return Math.max(height, baseHeight);
+  };
+
+  useEffect(() => {
+    const calculatedHeight = calculateCanvasHeight();
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.height = calculatedHeight;
+      drawCanvas();
+    }
 
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       const confirmationMessage =
@@ -225,15 +264,6 @@ const UserDataPage = () => {
   }, [testUserInfo]);
 
   const handleClose = () => setOpen(false);
-
-  useEffect(() => {
-    const alarmInfo = setTimeout(() => {
-      setOpen(true);
-    }, 10000);
-    return () => {
-      clearTimeout(alarmInfo);
-    };
-  }, []);
 
   return (
     <div className="flex flex-col items-center p-4 space-y-4">
@@ -277,7 +307,7 @@ const UserDataPage = () => {
       <canvas
         ref={canvasRef}
         width={800} // Increase width to ensure the chart is not cut off
-        height={2000} // Adjust height to fit all content
+        // height={2000} // Adjust height to fit all content
         className="border"
       ></canvas>
 
