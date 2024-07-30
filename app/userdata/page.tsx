@@ -325,19 +325,6 @@ const UserDataPage = () => {
             Please make sure you have downloaded your data and completed the
             survey before leaving.
           </Typography>
-
-          <div className="flex w-full justify-around mt-10">
-            <Button onClick={handleClose} variant="contained" color="primary">
-              Back To Download
-            </Button>
-            <Button
-              onClick={() => window.location.reload()}
-              variant="contained"
-              color="secondary"
-            >
-              Leave Page
-            </Button>
-          </div>
         </div>
       </Modal>
     </div>

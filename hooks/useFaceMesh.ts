@@ -133,9 +133,9 @@ export const useFaceMesh = (
   }, [runFacemesh, videoRef]);
 
   useEffect(() => {
-    const isGazing = lookingAtScreen && isForwardNLevel;
+    const isGazing = isForwardNLevel;
     setIsGazing(isGazing);
-  }, [lookingAtScreen, isForwardNLevel]);
+  }, [isForwardNLevel]);
 
   return useMemo(
     () => ({
