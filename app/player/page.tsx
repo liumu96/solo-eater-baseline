@@ -58,7 +58,7 @@ const PlayerPage: React.FC = () => {
 
   // Check if the user is gazing at the screen and whether it changes over time
   useEffect(() => {
-    console.log("isGazing value:", isGazing);
+    // console.log("isGazing value:", isGazing);
   }, [isGazing]);
 
   // 提取 YouTube 视频 ID https://www.youtube.com/watch?v=lAmXfsZvTFo&ab_channel=GhibliRelaxingSoul

@@ -8,14 +8,14 @@ export function avgFrequency(peaks, currentTime, windowSize) {
 
   // Calculate the start of the time window
   const timeWindowStart = currentTime - windowSizeInMilliseconds;
-  console.log("Current Time (ms):", currentTime);
-  console.log("Time Window Start (ms):", timeWindowStart);
+  // console.log("Current Time (ms):", currentTime);
+  // console.log("Time Window Start (ms):", timeWindowStart);
 
   // Filter peaks based on the time window
   const totalPeaksCount = peaks.filter(
     (peak) => peak.time.getTime() > timeWindowStart
   ).length;
-  console.log("Filtered Peaks Count:", totalPeaksCount);
+  // console.log("Filtered Peaks Count:", totalPeaksCount);
 
   if (totalPeaksCount === 0) {
     return 0;

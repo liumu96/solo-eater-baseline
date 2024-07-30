@@ -60,18 +60,18 @@ const ChewingTesting: React.FC<ChewingTestingProps> = ({
     if (typeof window === "undefined") return;
 
     const defaultOnFrequencyUpdate = (frequency: number | null) => {
-      console.log("Frequency:", frequency);
+      // console.log("Frequency:", frequency);
     };
 
     const calculateChewingFrequency = () => {
-      console.log("Filtered Peaks:", signalProcessingData.filteredPeaks);
+      // console.log("Filtered Peaks:", signalProcessingData.filteredPeaks);
       const timeNow = Date.now();
       const frequency = avgFrequency(
         signalProcessingData.filteredPeaks,
         timeNow,
         windowSize
       );
-      console.log("Calculated Frequency:", frequency); // Debug log
+      // console.log("Calculated Frequency:", frequency); // Debug log
       setChewingFrequency(frequency);
       (onFrequencyUpdate || defaultOnFrequencyUpdate)(frequency); // Use the provided function or the default one
     };
@@ -193,7 +193,7 @@ const ChewingTesting: React.FC<ChewingTestingProps> = ({
 
   useEffect(() => {
     if (videoRef.current && !videoRef.current.srcObject) {
-      console.log(videoRef.current, "videoRef.current11");
+      // console.log(videoRef.current, "videoRef.current11");
       requestCameraPermission();
     }
   }, [videoRef.current]);

@@ -84,7 +84,7 @@ export const VideoProvider: React.FC<VideoProviderProps> = ({ children }) => {
 
   const startRecording = () => {
     if (mediaRecorder && !isRecording) {
-      console.log(3333333);
+      // console.log(3333333);
       mediaRecorder.start();
       setIsRecording(true);
     }
