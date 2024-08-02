@@ -90,18 +90,18 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ videoId }) => {
 
   const handleDialogConfirm = () => {
     const errorInfo = stopRecording();
-    if (errorInfo) {
-      alert(errorInfo);
-    } else {
-      setDialogOpen(false);
-      setVideoPlayInfo({
-        startTime: new Date(startTime!),
-        stopTime: new Date(pauseTimes[pauseTimes.length - 1]),
-        pauseTimes: pauseTimes.map((time) => new Date(time)),
-        resumeTimes: resumeTimes.map((time) => new Date(time)),
-      });
-      router.push("/userdata");
-    }
+    // if (errorInfo) {
+    //   alert(errorInfo);
+    // } else {
+    setDialogOpen(false);
+    setVideoPlayInfo({
+      startTime: new Date(startTime!),
+      stopTime: new Date(pauseTimes[pauseTimes.length - 1]),
+      pauseTimes: pauseTimes.map((time) => new Date(time)),
+      resumeTimes: resumeTimes.map((time) => new Date(time)),
+    });
+    router.push("/userdata");
+    // }
   };
 
   const onPlaybackRateChange = () => {
